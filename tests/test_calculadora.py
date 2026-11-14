@@ -1,6 +1,6 @@
 # tests/test_calculadora.py
 import pytest
-from app.calculadora import sumar, restar, multiplicar, dividir
+from app.calculadora import sumar, restar, multiplicar, dividir, potencia, modulo
 
 
 def test_sumar():
@@ -34,3 +34,26 @@ def test_sumar_decimales():
 
 def test_restar_dos_negativos():
     assert restar(-5, -3) == -2
+
+
+def test_potencia():
+    assert potencia(2, 3) == 8
+    assert potencia(5, 0) == 1
+    assert potencia(2, -1) == 0.5
+    assert potencia(4, 0.5) == pytest.approx(2.0)
+
+
+def test_potencia_overflow():
+    with pytest.raises(OverflowError):
+        potencia(10.0, 1000.0)
+
+
+def test_modulo():
+    assert modulo(10, 3) == 1
+    assert modulo(9, 3) == 0
+    assert modulo(-7, 3) == 2  # En Python el residuo toma el signo del divisor
+
+
+def test_modulo_por_cero():
+    with pytest.raises(ZeroDivisionError):
+        modulo(5, 0)
